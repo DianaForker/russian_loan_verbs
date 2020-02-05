@@ -46,7 +46,7 @@ map.feature(languages = df$language2,
             longitude = df$longitude)
 ```
 
-Some comments
+Some comments and useful info
 
 
 ```{r}
