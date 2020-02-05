@@ -11,8 +11,8 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 library(readxl)
 library(tidyverse)
-df1 <- read_xlsx("overview impact of Russian.xlsx", sheet = "Garik")
-df2 <- read_xlsx("overview impact of Russian.xlsx", sheet = "overview impact of Russian_modi")
+df1 <- read_xlsx("data.xlsx", sheet = "data")
+df2 <- read_xlsx("data.xlsx", sheet = "overview impact of Russian_modi")
 
 df1 %>% 
   full_join(df2, by = "id") %>% 
