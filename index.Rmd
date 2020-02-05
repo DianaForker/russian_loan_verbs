@@ -11,12 +11,10 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 library(readxl)
 library(tidyverse)
-df1 <- read_xlsx("data.xlsx", sheet = "data")
-df2 <- read_xlsx("data.xlsx", sheet = "overview impact of Russian_modi")
+df <- read_xlsx("data.xlsx")
 
-df1 %>% 
-  full_join(df2, by = "id") %>% 
-  mutate(example = ifelse(is.na(example), "", example))->
+df %>% 
+  mutate(example = ifelse(is.na(example), "", example)) ->
   df
 ```
 
@@ -31,7 +29,7 @@ This website is appendix to the article 'The late success of Soviet Language Pol
 ```{r}
 library(DT)
 df %>% 
-  select(id, `ISO 639-3`, Glottolog.x, language.y, `Sociolinguistic situation`, `Number of speakers`, Education, Area, `Morphological type`, `basic word order.x`, `Input form`, `Direct insertion`, `Light verb construction`, `Indirect insertion`, References, latitude, longitude) %>% 
+  select(id, `ISO 639-3`, Glottolog, language, `Sociolinguistic situation`, `Number of speakers`, Education, Area, `Morphological type`, `basic word order`, `Input form`, `Direct insertion`, `Light verb construction`, `Indirect insertion`, References, latitude, longitude) %>% 
   datatable(filter = 'top', rownames = FALSE, options = list(dom = 'tip'), escape = FALSE)
 ```
 
@@ -39,9 +37,9 @@ df %>%
 
 ```{r}
 library(lingtypology)
-map.feature(languages = df$language2, 
+map.feature(languages = df$language, 
             popup = df$example, 
-            features = df$`basic word order.x`,
+            features = df$`basic word order`,
             latitude = df$latitude, 
             longitude = df$longitude)
 ```
@@ -50,10 +48,10 @@ Some comments and useful info
 
 
 ```{r}
-map.feature(languages = df$language2, 
+map.feature(languages = df$language, 
             latitude = df$latitude, 
             longitude = df$longitude,
-            minichart.data = df[, 30:32],
+            minichart.data = df[, 22:24],
             minichart = "pie",
             width = 2,
             label = df$language2)
@@ -62,7 +60,7 @@ map.feature(languages = df$language2,
 Some comments
 
 ```{r}
-map.feature(languages = df$language2, 
+map.feature(languages = df$language, 
             popup = df$example, 
             features = df$`Morphological type`,
             latitude = df$latitude, 
@@ -94,7 +92,7 @@ str_c(for_examples$new, collapse = "\n") %>%
 
 ```{r}
 df %>% 
-  select(id, language.y, References) %>% 
+  select(id, language, References) %>% 
   filter(!is.na(source)) %>% 
   datatable(filter = 'top', rownames = FALSE, options = list(dom = 'tip'), escape = FALSE)
 ```
