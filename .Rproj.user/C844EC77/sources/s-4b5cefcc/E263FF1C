@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580908321339.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4188410676",
+    "id" : "E263FF1C",
+    "lastKnownWriteTime" : 1580908352,
+    "last_content_update" : 1580908352031,
+    "path" : "/cloud/project/index.Rmd",
+    "project_path" : "index.Rmd",
+    "properties" : {
+        "chunk_output_type" : "console",
+        "cursorPosition" : "87,16",
+        "scrollLine" : "72"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

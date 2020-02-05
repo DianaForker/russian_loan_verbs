@@ -1,0 +1,99 @@
+---
+title: "Supplement for 'The late success of Soviet Language Policy' by D. Forker"
+author: "D. Forker"
+date: "2/5/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+library(readxl)
+library(tidyverse)
+df1 <- read_xlsx("overview impact of Russian.xlsx", sheet = "Garik")
+df2 <- read_xlsx("overview impact of Russian.xlsx", sheet = "overview impact of Russian_modi")
+
+df1 %>% 
+  full_join(df2, by = "id") %>% 
+  mutate(example = ifelse(is.na(example), "", example))->
+  df
+```
+
+This website is appendix to the article 'The late success of Soviet Language Policy' by D. Forker. 
+
+## {.tabset .tabset-fade .tabset-pills}
+
+### Overview
+
+```{r}
+library(DT)
+df %>% 
+  select(id, `ISO 639-3`, Glottolog.x, language.y, `Sociolinguistic situation`, `Number of speakers`, Education, Area, `Morphological type`, `basic word order.x`, `Input form`, `Direct insertion`, `Light verb construction`, `Indirect insertion`, References, latitude, longitude) %>% 
+  datatable(filter = 'top', rownames = FALSE, options = list(dom = 'tip'), escape = FALSE)
+```
+
+### Map
+
+```{r}
+library(lingtypology)
+map.feature(languages = df$language2, 
+            popup = df$example, 
+            features = df$`basic word order.x`,
+            latitude = df$latitude, 
+            longitude = df$longitude)
+```
+
+Some comments
+
+
+```{r}
+map.feature(languages = df$language2, 
+            latitude = df$latitude, 
+            longitude = df$longitude,
+            minichart.data = df[, 30:32],
+            minichart = "pie",
+            width = 2,
+            label = df$language2)
+```
+
+Some comments
+
+```{r}
+map.feature(languages = df$language2, 
+            popup = df$example, 
+            features = df$`Morphological type`,
+            latitude = df$latitude, 
+            longitude = df$longitude)
+```
+
+Some comments
+
+### Examples
+
+```{r}
+df %>% 
+  select(`language names for map`, example) %>% 
+  filter(example != "") %>% 
+  mutate(new = str_c("#### ", `language names for map`, " \n", example)) %>% 
+  select(new) ->
+  for_examples
+
+tmp <- tempfile()
+
+str_c(for_examples$new, collapse = "\n") %>% 
+  write_lines(tmp)
+```
+
+```{r, child=tmp}
+```
+
+### Bibliography
+
+```{r}
+df %>% 
+  select(id, language.y, References) %>% 
+  filter(!is.na(source)) %>% 
+  datatable(filter = 'top', rownames = FALSE, options = list(dom = 'tip'), escape = FALSE)
+```
+
